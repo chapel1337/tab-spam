@@ -5,20 +5,38 @@
 
 const parameters = new URLSearchParams(window.location.search);
 
-const times = parameters.get("times");
-const website = parameters.get("website");
+let website = undefined;
+let times = undefined;
+
+const parameterWebsite = parameters.get("website");
+const parameterTimes = parameters.get("times");
+
+if (parameterWebsite == undefined || parameterTimes == undefined)
+{
+    websiteMode();
+}
+else
+{
+    website = parameterWebsite;
+    times = parameterTimes;
+
+    openWindows();
+}
+
+function websiteMode()
+{
+    website = prompt("input a website to be opened");
+    times = prompt("input amount of tabs to be opened");
+
+    openWindows();
+}
 
 function openWindows()
 {
-    for (let i = 0; i <= times; ++i)
+    for (let i = 0; i < times; ++i)
     {
         window.open(`https://${website}`);
     }
 
     window.location.replace(`https://${website}`);
 }
-
-console.log(times);
-console.log(website);
-
-openWindows();
