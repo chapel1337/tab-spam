@@ -11,7 +11,7 @@ let times = undefined;
 const parameterWebsite = parameters.get("website");
 const parameterTimes = parameters.get("times");
 
-if (parameterWebsite == undefined || parameterTimes == undefined)
+if (parameterWebsite == null || parameterTimes == null)
 {
     websiteMode();
 }
