@@ -2,6 +2,7 @@
 // made on 10/29/2022
 // finally figured out how to get the parameters
 // probably shouldn't have used an external script.js file
+// came back on 12/3/2022 to add unblock popup spam notice
 
 const parameters = new URLSearchParams(window.location.search);
 
@@ -11,7 +12,7 @@ let times = undefined;
 const parameterWebsite = parameters.get("website");
 const parameterTimes = parameters.get("times");
 
-if (parameterWebsite == null || parameterTimes == null)
+if (parameterWebsite == undefined || parameterTimes == undefined)
 {
     websiteMode();
 }
@@ -23,20 +24,38 @@ else
     openWindows();
 }
 
-function websiteMode()
+async function websiteMode()
 {
     website = prompt("input a website to be opened");
     times = prompt("input amount of tabs to be opened");
 
-    openWindows();
+    if (website == "" || times == "")
+    {
+        window.location.reload();
+    }
+    else
+    {
+        openWindows();
+    }
 }
 
-function openWindows()
+async function openWindows()
 {
+    let latestWindow;
+
     for (let i = 0; i < times; ++i)
     {
-        window.open(`https://${website}`);
+        latestWindow = window.open(`https://${website}`);
     }
 
-    window.location.replace(`https://${website}`);
+    if (!latestWindow)
+    {
+        alert("please allow popups, then press okay");
+
+        window.location.reload();
+    }
+    else
+    {
+        window.location.replace(`https://${website}`);
+    }
 }
