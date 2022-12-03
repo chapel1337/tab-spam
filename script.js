@@ -2,15 +2,15 @@
 // made on 10/29/2022
 // finally figured out how to get the parameters
 // probably shouldn't have used an external script.js file
-// came back on 12/3/2022 to add unblock popup spam notice
+// came back on 12/3/2022 to add unblock popup spam notice and https checking
 
 const parameters = new URLSearchParams(window.location.search);
 
-let website = undefined;
-let times = undefined;
+let website;
+let times;
 
-const parameterWebsite = parameters.get("website");
-const parameterTimes = parameters.get("times");
+let parameterWebsite = parameters.get("website");
+let parameterTimes = parameters.get("times");
 
 if (parameterWebsite == undefined || parameterTimes == undefined)
 {
@@ -18,6 +18,12 @@ if (parameterWebsite == undefined || parameterTimes == undefined)
 }
 else
 {
+    // assuming that the website is securew
+    if (!parameterWebsite.includes("https"))
+    {
+        parameterWebsite = (`https://${parameterWebsite}`);
+    }
+
     website = parameterWebsite;
     times = parameterTimes;
 
@@ -33,10 +39,12 @@ async function websiteMode()
     {
         window.location.reload();
     }
-    else
+    else if (!website.includes("https"))
     {
-        openWindows();
+        website = (`https://${website}`);
     }
+    
+    openWindows();
 }
 
 async function openWindows()
@@ -45,7 +53,7 @@ async function openWindows()
 
     for (let i = 0; i < times; ++i)
     {
-        latestWindow = window.open(`https://${website}`);
+        latestWindow = window.open(website);
     }
 
     if (!latestWindow)
@@ -56,6 +64,6 @@ async function openWindows()
     }
     else
     {
-        window.location.replace(`https://${website}`);
+        window.location.replace(website);
     }
 }
