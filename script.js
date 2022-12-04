@@ -62,8 +62,6 @@ async function openWindows()
 
         window.location.reload();
     }
-    else
-    {
-        window.location.replace(website);
-    }
+
+    window.location.replace(website);
 }
